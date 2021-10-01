@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.webkit.WebView;
 
 import com.example.notesapp.R;
@@ -49,16 +50,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add_and_edit_item) {
-            Intent intent = new Intent(this, ChangeNoteActivity.class);
-            startActivity(intent);
+            openEditActivity();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openEditActivity() {
+        Intent intent = new Intent(this, ChangeNoteActivity.class);
+        startActivity(intent);
     }
 
     public void initRecyclerView() {
         noteRecycler.setLayoutManager(new LinearLayoutManager(this));
         noteRecycler.setAdapter(adapter);
         adapter.updateData(noteRepo.getNotes());
+        adapter.onItemClickListener(this::onItemClick);
+    }
+
+    private void onItemClick(Note item) {
+        openEditActivity();
     }
 
     public void initViews() {

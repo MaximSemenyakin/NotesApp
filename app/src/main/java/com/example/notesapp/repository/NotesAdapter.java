@@ -16,6 +16,7 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
     private List<Note> notes = new ArrayList<>();
+    private OnItemClick clickListener = null;
 
     public void updateData(List<Note> data) {
         this.notes = data;
@@ -32,6 +33,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = getItem(position);
+        holder.itemView.setOnClickListener(v -> clickListener.onItemClickListener(note));
         holder.noteNameTv.setText(note.getNote());
         holder.noteDateTv.setText(note.getDate());
         holder.noteDescriptionTv.setText(note.getDescription());
@@ -57,5 +59,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             noteDescriptionTv = itemView.findViewById(R.id.note_description_text_view);
             noteDateTv = itemView.findViewById(R.id.create_date_text_view);
         }
+    }
+
+    public void onItemClickListener(OnItemClick listener) {
+        clickListener = listener;
+    }
+
+    public interface OnItemClick {
+        void onItemClickListener(Note item);
     }
 }
