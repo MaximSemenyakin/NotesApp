@@ -1,10 +1,16 @@
 package com.example.notesapp.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class NoteRepo {
+//CRUD - create read update delete
 
-    List<Note> notes = new ArrayList<>();
+public interface NoteRepo {
 
+    List<Note> getNotes();
+
+    boolean createNote(Note note);
+
+    boolean updateNote(int id, Note note);
+
+    boolean deleteNote(int id);
 }
