@@ -1,7 +1,6 @@
 package com.example.notesapp.repository;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -26,17 +25,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(parent, clickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Note note = getItem(position);
-        holder.itemView.setOnClickListener(v -> clickListener.onItemClickListener(note));
-        holder.noteNameTv.setText(note.getNote());
-        holder.noteDateTv.setText(note.getDate());
-        holder.noteDescriptionTv.setText(note.getDescription());
+        holder.bind(getItem(position));
     }
 
     public Note getItem(int position) {
@@ -50,14 +44,21 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView noteNameTv, noteDescriptionTv, noteDateTv;
+        private Note notes;
 
+        private final TextView noteNameTv = itemView.findViewById(R.id.note_name_text_view);
+        private final TextView noteDescriptionTv = itemView.findViewById(R.id.note_description_text_view);
+        private final TextView noteDateTv = itemView.findViewById(R.id.create_date_text_view);
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            noteNameTv = itemView.findViewById(R.id.note_name_text_view);
-            noteDescriptionTv = itemView.findViewById(R.id.note_description_text_view);
-            noteDateTv = itemView.findViewById(R.id.create_date_text_view);
+        public ViewHolder(@NonNull ViewGroup parent, NotesAdapter.OnItemClick clickListener) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false));
+            itemView.setOnClickListener(view -> clickListener.onItemClickListener(notes));
+        }
+
+        public void bind(Note note) {
+            this.notes = note;
+            noteNameTv.setText(notes.getNote());
+            noteDescriptionTv.setText(notes.getDescription());
         }
     }
 

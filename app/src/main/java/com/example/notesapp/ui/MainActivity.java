@@ -10,15 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.webkit.WebView;
 
 import com.example.notesapp.R;
 import com.example.notesapp.implementation.NoteRepoImpl;
 import com.example.notesapp.repository.Note;
 import com.example.notesapp.repository.NoteRepo;
 import com.example.notesapp.repository.NotesAdapter;
-import com.google.android.material.appbar.AppBarLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add_and_edit_item) {
-            openEditActivity();
+            openEditActivity(null);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openEditActivity() {
+    private void openEditActivity(@NonNull Note item) {
         Intent intent = new Intent(this, ChangeNoteActivity.class);
-        startActivity(intent);
+            intent.putExtra(ChangeNoteActivity.NAME_NOTE, item.getNote());
+            intent.putExtra(ChangeNoteActivity.DESCRIPTION_NOTE, item.getDescription());
+            startActivity(intent);
     }
 
     public void initRecyclerView() {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onItemClick(Note item) {
-        openEditActivity();
+        openEditActivity(item);
     }
 
     public void initViews() {
