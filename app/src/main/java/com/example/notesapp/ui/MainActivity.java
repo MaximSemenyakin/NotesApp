@@ -1,6 +1,7 @@
 package com.example.notesapp.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.notesapp.R;
 import com.example.notesapp.implementation.NoteRepoImpl;
@@ -21,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView noteRecycler;
     private Toolbar notesToolbar;
+
+    private final int REQUEST_CODE_UPDATE = 1;
+    private final int REQUEST_CODE_NEW = 2;
+
+    private TextView noteNameTv;
+    private TextView descriptionNoteTv;
 
     NotesAdapter adapter = new NotesAdapter();
     NoteRepo noteRepo = new NoteRepoImpl();
@@ -47,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add_and_edit_item) {
-            openEditActivity(null);
+            createNewNote();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -57,7 +66,23 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ChangeNoteActivity.class);
             intent.putExtra(ChangeNoteActivity.NAME_NOTE, item.getNote());
             intent.putExtra(ChangeNoteActivity.DESCRIPTION_NOTE, item.getDescription());
+            startActivityForResult(intent, REQUEST_CODE_UPDATE);
             startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_UPDATE) {
+                assert data != null;
+                noteNameTv.setText(data.getStringExtra("name"));
+                descriptionNoteTv.setText(data.getStringExtra("description"));
+            }
+            else {
+                Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void initRecyclerView() {
@@ -71,9 +96,16 @@ public class MainActivity extends AppCompatActivity {
         openEditActivity(item);
     }
 
+    private void createNewNote() {
+        Intent intent = new Intent(this, ChangeNoteActivity.class);
+        startActivity(intent);
+    }
+
     public void initViews() {
         noteRecycler = findViewById(R.id.notes_recycler);
         notesToolbar = findViewById(R.id.note_toolbar);
+        noteNameTv = findViewById(R.id.note_name_text_view);
+        descriptionNoteTv = findViewById(R.id.note_description_text_view);
 
         setSupportActionBar(notesToolbar);
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="origin_margin">16dp</dimen>
+    <dimen name="text_size_description">18sp</dimen>
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+    <dimen name="text_size_origin">24sp</dimen>
+
+</resources>

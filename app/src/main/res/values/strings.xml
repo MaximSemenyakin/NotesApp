@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NotesApp</string>
+    <string name="save_note_button">Сохранить</string>
 </resources>

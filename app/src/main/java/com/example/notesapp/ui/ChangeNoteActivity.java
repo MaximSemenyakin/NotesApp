@@ -26,6 +26,16 @@ public class ChangeNoteActivity extends AppCompatActivity {
 
         initViews();
         fillViews();
+
+        saveButton.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            String name = noteNameEt.getText().toString();
+            String description = descriptionEt.getText().toString();
+            intent.putExtra("name", name);
+            intent.putExtra("description", description);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
     }
 
     private void initViews() {
