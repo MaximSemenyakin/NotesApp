@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.notesapp.R;
+import com.example.notesapp.repository.Note;
 
 public class ChangeNoteActivity extends AppCompatActivity {
 
@@ -16,8 +17,10 @@ public class ChangeNoteActivity extends AppCompatActivity {
     private EditText descriptionEt;
     private Button saveButton;
 
-    protected static final String NAME_NOTE = "name_note";
-    protected static final String DESCRIPTION_NOTE = "description_note";
+    private Note note;
+
+    protected static final String UPDATE_MAIN = "update_main";
+    protected static final String UPDATE = "update";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,15 +30,7 @@ public class ChangeNoteActivity extends AppCompatActivity {
         initViews();
         fillViews();
 
-        saveButton.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            String name = noteNameEt.getText().toString();
-            String description = descriptionEt.getText().toString();
-            intent.putExtra("name", name);
-            intent.putExtra("description", description);
-            setResult(RESULT_OK, intent);
-            finish();
-        });
+        saveButton.setOnClickListener(v -> saveNoteButton());
     }
 
     private void initViews() {
@@ -45,11 +40,28 @@ public class ChangeNoteActivity extends AppCompatActivity {
     }
 
     private void fillViews() {
-        Intent intent = getIntent();
-        String nameNote = intent.getStringExtra(NAME_NOTE);
-        String descriptionNote = intent.getStringExtra(DESCRIPTION_NOTE);
+        note = getIntent().getParcelableExtra(UPDATE);
 
-        noteNameEt.setText(nameNote);
-        descriptionEt.setText(descriptionNote);
+        if (note != null) {
+            noteNameEt.setText(note.getNote());
+            descriptionEt.setText(note.getDescription());
+        }
+    }
+
+    private void updateNote(Note note) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(UPDATE_MAIN, note);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void saveNoteButton() {
+        String nameNote = noteNameEt.getText().toString();
+        String descriptionNote = descriptionEt.getText().toString();
+
+        if (nameNote != null && descriptionNote != null) {
+            Note item = new Note(nameNote, descriptionNote);
+            updateNote(item);
+        }
     }
 }

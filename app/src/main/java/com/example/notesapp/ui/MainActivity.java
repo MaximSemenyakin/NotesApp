@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.notesapp.R;
 import com.example.notesapp.implementation.NoteRepoImpl;
@@ -30,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView noteNameTv;
     private TextView descriptionNoteTv;
+
+    private Note note;
 
     NotesAdapter adapter = new NotesAdapter();
     NoteRepo noteRepo = new NoteRepoImpl();
@@ -62,27 +63,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openEditActivity(@NonNull Note item) {
+    private void openEditActivity(Note item) {
         Intent intent = new Intent(this, ChangeNoteActivity.class);
-            intent.putExtra(ChangeNoteActivity.NAME_NOTE, item.getNote());
-            intent.putExtra(ChangeNoteActivity.DESCRIPTION_NOTE, item.getDescription());
-            startActivityForResult(intent, REQUEST_CODE_UPDATE);
-            startActivity(intent);
+        intent.putExtra(ChangeNoteActivity.UPDATE, item);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            note = data.getParcelableExtra(ChangeNoteActivity.UPDATE_MAIN);
             if (requestCode == REQUEST_CODE_UPDATE) {
-                assert data != null;
-                noteNameTv.setText(data.getStringExtra("name"));
-                descriptionNoteTv.setText(data.getStringExtra("description"));
-            }
-            else {
-                Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
+                noteRepo.updateNote(note.getId(), note);
+            } else if (requestCode == REQUEST_CODE_NEW) {
+                noteRepo.createNote(note);
             }
         }
+        initRecyclerView();
     }
 
     public void initRecyclerView() {
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNewNote() {
         Intent intent = new Intent(this, ChangeNoteActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_NEW);
     }
 
     public void initViews() {
@@ -111,29 +109,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fillValues() {
-        noteRepo.createNote(new Note(1, "Note first", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(2, "Note second", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(3, "Note third", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(4, "Note four", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note five", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note six", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note seven", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note eight", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note nine", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note ten", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note eleven", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
-        noteRepo.createNote(new Note(5, "Note twelve", "How to create a note app using java and android " +
-                "with recycler view, and many other thing", "01.10.2021"));
+        noteRepo.createNote(new Note("Note first", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note second", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note third", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note four", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note five", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note six", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note seven", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note eight", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note nine", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note ten", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note eleven", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
+        noteRepo.createNote(new Note("Note twelve", "How to create a note app using java and android " +
+                "with recycler view, and many other thing"));
     }
 }
