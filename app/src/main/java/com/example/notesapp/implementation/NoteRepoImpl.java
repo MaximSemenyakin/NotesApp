@@ -1,5 +1,7 @@
 package com.example.notesapp.implementation;
 
+import androidx.annotation.Nullable;
+
 import com.example.notesapp.repository.Note;
 import com.example.notesapp.repository.NoteRepo;
 
@@ -16,18 +18,20 @@ public class NoteRepoImpl implements NoteRepo {
         return new ArrayList<>(notes);
     }
 
+    @Nullable
     @Override
-    public boolean createNote(Note note) {
-        note.setId(++counter);
+    public Integer createNote(Note note) {
+        int newId = ++counter;
+        note.setId(newId);
         notes.add(note);
-        return true;
+        return newId;
     }
 
     @Override
     public boolean updateNote(int id, Note note) {
         deleteNote(id);
         note.setId(id);
-        notes.add(note);
+        notes.add(id - 1, note);
         return true;
     }
 

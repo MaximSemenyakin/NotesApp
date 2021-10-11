@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 public class Note implements Parcelable {
 
     @Nullable
-    private int id;
+    private Integer id;
     private String note;
     private String description;
     private String date;
@@ -37,7 +37,8 @@ public class Note implements Parcelable {
         }
     };
 
-    public int getId() {
+    @Nullable
+    public Integer getId() {
         return id;
     }
 
