@@ -9,12 +9,15 @@ import android.view.MenuItem;
 
 import com.example.notesapp.R;
 import com.example.notesapp.repository.Note;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements
         NoteListFragment.Controller,
         AddOrEditNoteFragment.Controller {
 
     private Toolbar toolbar;
+    private BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +25,36 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         initToolbar();
-        openListNoteFragment();
+        initNavigation();
+
+        navigationView.setSelectedItemId(R.id.list_item);
     }
 
-    private void openListNoteFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_container, new NoteListFragment())
-                .commit();
+    private void initNavigation() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.settings_item:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new SettingsFragment())
+                            .commit();
+                    break;
+                case R.id.profile_item:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new ProfileFragment())
+                            .commit();
+                    break;
+                case R.id.list_item:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new NoteListFragment())
+                            .commit();
+                    break;
+            }
+            return true;
+        });
     }
 
 

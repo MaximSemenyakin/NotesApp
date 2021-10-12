@@ -2,10 +2,10 @@ package com.example.notesapp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +27,7 @@ public class NoteListFragment extends Fragment {
     private Note note;
     private NoteRepo noteRepo = new NoteRepoImpl();
 
-    private TextView noteNameTv;
-    private TextView descriptionNoteTv;
+    private static final String TAG = "@@@";
 
     private Controller controller;
 
@@ -76,11 +75,12 @@ public class NoteListFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putParcelable(AddOrEditNoteFragment.ARGS_KEY, note);
         listFragment.setArguments(bundle);
+        Log.d(TAG, "newInstance() called with: note = [" + note + "]");
         return listFragment;
     }
 
     private void getArgs() {
-        Bundle data = new Bundle();
+        Bundle data = getArguments();
         if (data != null) {
             note = data.getParcelable(AddOrEditNoteFragment.ARGS_KEY);
             if (note != null) {
@@ -91,6 +91,7 @@ public class NoteListFragment extends Fragment {
                 }
             }
         }
+        notesAdapter.updateData(noteRepo.getNotes());
     }
 
     public void fillValues() {
