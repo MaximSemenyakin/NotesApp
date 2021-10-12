@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import com.example.notesapp.R;
 import com.example.notesapp.repository.Note;
 
-public class MainActivity extends AppCompatActivity implements NoteListFragment.Controller, AddOrEditNoteFragment.Controller{
+public class MainActivity extends AppCompatActivity implements
+        NoteListFragment.Controller,
+        AddOrEditNoteFragment.Controller {
 
     private Toolbar toolbar;
 
