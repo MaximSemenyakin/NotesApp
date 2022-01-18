@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardCornerRadius="8dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/corner_radius"
+    android:layout_margin="@dimen/half_margin"
+    android:clickable="true"
+    android:focusable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="8dp"
+        android:padding="@dimen/half_padding"
+        android:layout_margin="@dimen/half_margin"
         android:layout_height="wrap_content">
 
         <TextView
@@ -16,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Заметка"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_origin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -28,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/note_description_text_view"
             android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/half_margin"
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -37,8 +41,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/create_date_text_view"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp"
-            android:textSize="18sp"
+            android:layout_marginStart="@dimen/half_margin"
+            android:textSize="@dimen/text_size_description"
             android:ellipsize="end"
             android:maxLines="1"
             tools:text="My first app using android and java for create note app" />

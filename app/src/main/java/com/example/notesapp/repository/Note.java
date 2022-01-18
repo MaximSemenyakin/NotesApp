@@ -1,20 +1,44 @@
 package com.example.notesapp.repository;
 
-public class Note {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private int id;
+import androidx.annotation.Nullable;
+
+public class Note implements Parcelable {
+
+    @Nullable
+    private Integer id;
     private String note;
     private String description;
     private String date;
 
-    public Note(int id, String note, String description, String date) {
-        this.id = id;
+    public Note(String note, String description) {
         this.note = note;
         this.description = description;
-        this.date = date;
     }
 
-    public int getId() {
+    protected Note(Parcel in) {
+        id = in.readInt();
+        note = in.readString();
+        description = in.readString();
+        date = in.readString();
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
+
+    @Nullable
+    public Integer getId() {
         return id;
     }
 
@@ -44,5 +68,18 @@ public class Note {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(note);
+        dest.writeString(description);
+        dest.writeString(date);
     }
 }
