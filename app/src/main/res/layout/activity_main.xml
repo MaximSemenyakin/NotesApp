@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,12 +19,38 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:rowCount="2">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            tools:background="@color/purple_200">
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container_note_screen"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="2"
+            tools:background="@color/purple_500">
+
+        </FrameLayout>
 
 
-    </FrameLayout>
+    </GridLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/nav_view_menu" />
 
 </LinearLayout>

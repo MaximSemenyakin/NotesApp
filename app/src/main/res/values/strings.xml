@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">NotesApp</string>
     <string name="save_note_button">Сохранить</string>
+    <string name="list_note">Заметки</string>
+    <string name="profile_note">Профиль</string>
+    <string name="settings_note">Настройки</string>
+    <string name="profile_fragment">Welcome to profile fragment</string>
+    <string name="settings_fragment">Hello settings fragment</string>
 </resources>
